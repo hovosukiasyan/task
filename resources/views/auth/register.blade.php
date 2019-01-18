@@ -29,7 +29,7 @@
                             <label for="age" class="col-md-4 col-form-label text-md-right">{{ __('Age') }}</label>
 
                             <div class="col-md-6">
-                                <input id="age" type="text" class="form-control{{ $errors->has('age') ? ' is-invalid' : '' }}" name="age" value="{{ old('age') }}"  autofocus>
+                                <input id="age" type="number" class="form-control{{ $errors->has('age') ? ' is-invalid' : '' }}" name="age" value="{{ old('age') }}"  autofocus>
 
                                 @if ($errors->has('age'))
                                     <span class="invalid-feedback" role="alert">
@@ -45,8 +45,8 @@
                             <div class="col-md-6">
                                 <select name="gender" class="col-md-4 control-label">
                                     <option value=" "></option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
                                 </select>
                             </div>
                         </div>
