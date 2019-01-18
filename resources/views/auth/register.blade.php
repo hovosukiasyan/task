@@ -48,11 +48,6 @@
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
