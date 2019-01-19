@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Input;
 
 class RegisterController extends Controller
 {
@@ -54,6 +55,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'age' => ['required', 'integer','between:1,115'],
             'gender' => ['required','boolean','in:0,1'],
+            'picture' => ['required','mimes:jpeg,png,jpg,gif,svg','max:2048'],
         ]);
     }
 
@@ -65,12 +67,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $fileName = 'null';
+        if (Input::file('picture')->isValid()) {
+            $destinationPath = public_path('uploads/files');
+            $extension = Input::file('picture')->getClientOriginalExtension();
+            $fileName = uniqid().'.'.$extension;
+
+            Input::file('picture')->move($destinationPath, $fileName);
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'age' => $data['age'],
             'gender' => $data['gender'],
+            'picture' =>  $fileName,
         ]);
     }
 }
