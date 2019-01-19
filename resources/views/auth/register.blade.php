@@ -90,7 +90,7 @@
                         <div class="form-group{{ $errors->has('profile_picture') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Profile Picture</label>
                             <input id="picture" type="file" class="form-control" name="picture" required>
-                            <img id="img" src="#" alt="your image" />
+                            <img id="img" src="#" alt="your image" width="100" height="100" />
                     
                             @if ($errors->has('picture'))
                                 <span class="help-block">
