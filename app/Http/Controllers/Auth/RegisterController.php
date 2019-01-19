@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'age' => ['required', 'integer','between:1,115'],
             'gender' => ['required','boolean','in:0,1'],
-            'picture' => ['required','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'picture' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     }
 
