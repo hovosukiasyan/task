@@ -4,7 +4,7 @@
     <div class="wrapper">
         <h1 class="title">Edit Project</h1>   
         <?php
-           dd( $user); 
+        //    dd( $user); 
         ?>
         <form method="POST" action="/profile/" enctype="multipart/form-data">
 
@@ -14,7 +14,7 @@
             <div class="form-group row">
                     <label for="picture" class="col-md-4 col-form-label text-md-right">{{ __('Profile Picture') }}</label>
 
-                    <div class="col-md-6 picture_upload" class="form-group{{ $errors->has('profile_picture') ? ' has-error' : '' }}">
+                    <div class="col-md-6 picture_upload" class="form-group{{ $errors->has('picture') ? ' has-error' : '' }}">
                         <input id="picture" type="file" class="form-control" name="picture" value="">
                         <img id="img" src="{{ asset('/uploads/files') . '/' .$user->picture }}" alt="photo" width="100" height="100" />
                 
