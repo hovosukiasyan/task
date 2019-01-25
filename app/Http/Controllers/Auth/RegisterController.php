@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
-
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Input;
-
 class RegisterController extends Controller
 {
     /*
@@ -21,16 +18,13 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
-
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
     protected $redirectTo = '/home';
-
     /**
      * Create a new controller instance.
      *
@@ -40,7 +34,6 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -58,7 +51,6 @@ class RegisterController extends Controller
             'picture' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -72,10 +64,8 @@ class RegisterController extends Controller
             $destinationPath = public_path('uploads/files');
             $extension = Input::file('picture')->getClientOriginalExtension();
             $fileName = uniqid().'.'.$extension;
-
             Input::file('picture')->move($destinationPath, $fileName);
         }
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
