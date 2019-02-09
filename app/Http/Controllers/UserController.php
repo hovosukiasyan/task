@@ -11,20 +11,6 @@ use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
-    // protected function validator(Request $request)
-    // {
-    //     return Validator::make($request->all() , [
-    //         'name' => ['required','string', 'max:255'],
-    //         'email' => ['string', 'email', 'max:255', 'unique:users'],
-    //         'current_password'  => 'required_with:password',
-    //         'password' => ['string', 'min:6', 'confirmed','different:current_password'],
-    //         'confirm_password' => 'same:password',
-    //         'age' => ['integer','between:1,115'],
-    //         'gender' => ['boolean','in:0,1'],
-    //         'picture' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     ]);
-    // }
-
     public function index()
     {
         $user = Auth::user();
@@ -38,15 +24,15 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required','string', 'max:255'],
-            'email' => ['email', 'max:255', 'unique:users,email' . \Auth::id()],
+            'email' => ['email', 'max:255', 'unique:users,email,' . \Auth::id()],
             'current_password'  => ['required_with:password'],
             'password' => ['nullable','min:6', 'confirmed','different:current_password'],
-            'confirm_password' => ['same:password'],
+            'confirm_password' => [],
             'age' => ['required','integer','between:1,115'],
             'gender' => ['required','boolean'],
             'picture' => ['mimes:jpeg,png,jpg,gif,svg','max:2048'],
         ]);
-        dd(6);
+        //dd(111);
         $inputs = $request->all();
 
         unset($inputs['current_password']);
@@ -72,7 +58,7 @@ class UserController extends Controller
 
 
         //ay hmi kstuges ete kpoxe password hetevyal gorcoxutyunner@ kenes u ete sax ok e inputsi mej passwordn el kavelcnes
-        if($request->has('password')) {
+        if($request->filled('password')) {
             $user = Auth::user();
             
             $stored_password = $user->password;//DB-i passwordy
@@ -93,7 +79,7 @@ class UserController extends Controller
         //dd($inputs);
         //nafsyaki kstuges update kexni te che, karox e inch-vor problem ka
         if(!Auth::user()->update($inputs)){
-            dd(1);
+            //dd(1);
             return redirect()->back()->with('error', 'Something went wrong!');
         }
         //dd(2);
