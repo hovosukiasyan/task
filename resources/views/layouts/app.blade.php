@@ -53,7 +53,10 @@
                             @endif
                         @else    
                             <li class="nav-item dropdown">
-                                <a href='/profile'>Profile</a>
+                                <a href='/profile' class="link_push_left">Profile</a>
+                                <a href='/post/create' class="link_push_left">Create Post</a>
+                                <a href='/my-posts' class="link_push_left">My Posts</a>
+                                <a href='/all-posts' class="link_push_left">All Posts</a>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

@@ -24,5 +24,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'UserController@index');
 Route::patch('/profile', 'UserController@update');
 
+
+Route::get('/post/create', 'PostController@create');
+Route::post('/post/', 'PostController@store');
+
+Route::get('/my-posts', 'PostController@myPosts');
+Route::get('/all-posts', 'PostController@allPosts');
 // Route::get('/profile','UserController@index');
 // Route::patch('/profile/{user}','UserController@update');
