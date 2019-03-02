@@ -14,6 +14,24 @@
                         <p><b>Image</b> - </p>
                         <img id="img" src="{{ asset('/uploads/files') . '/' .$post->picture }}" alt="photo" width="200" height="200" />
                     </div>
+                    <div class="flex">
+                        <a href="/my-posts/show/{{ $post->id }}" class="show-post link_push_left">View Post</a>
+                        <form method="POST" action="/post/{{ $post->id }}" class="link_push_left">
+
+                            @method('DELETE')
+                            @csrf
+                            
+                            <div class="field">
+                    
+                                <div class="control">
+                                    <button type="submit" class="btn btn-danger delete-post">Delete Post</button>
+                                </div>
+                            
+                            
+                            </div>
+                        </form>
+                        <a href="/my-posts/edit/{{ $post->id }}" class="update-post link_push_left">Update Post</a>
+                    </div>
                 </ul>
             </div>
             @endforeach

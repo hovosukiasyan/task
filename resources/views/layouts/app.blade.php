@@ -13,9 +13,13 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
 
+    <!-- Bootstrap -->
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
 
     <!-- Styles -->
@@ -53,11 +57,56 @@
                             @endif
                         @else    
                             <li class="nav-item dropdown">
+                                
+                                
                                 <a href='/profile' class="link_push_left">Profile</a>
                                 <a href='/post/create' class="link_push_left">Create Post</a>
                                 <a href='/my-posts' class="link_push_left">My Posts</a>
                                 <a href='/all-posts' class="link_push_left">All Posts</a>
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                
+                                
+                                
+                                {{-- <a id="category" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ 'Categories' }} <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="category">
+                                    <a href='/profile' class="link_push_left">Profile</a>
+                                    <a href='/post/create' class="link_push_left">Create Post</a>
+                                    <a href='/my-posts' class="link_push_left">My Posts</a>
+                                    <a href='/all-posts' class="link_push_left">All Posts</a>
+                                </div> --}}
+                                
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle dropdown_categories" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Categories
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        @foreach ($categories as $category)
+                                            <a class="dropdown-item" href="/category/{{ $category->id }}"><?= $category->title ?></a>
+                                        @endforeach
+                                      
+                                    </div>
+                                  </div>
+                                
+
+                                  <div class="dropdown">
+                                    <button class="btn dropdown-toggle dropdown_categories" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Auth::user()->name }}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                      </a>
+                                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    </div>
+                                  </div>
+                                
+                                
+                                {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -71,7 +120,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                </div>
+                                </div> --}}
                             </li>
                         @endguest
                     </ul>

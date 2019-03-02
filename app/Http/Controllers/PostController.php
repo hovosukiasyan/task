@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
+use App\Category;
+use App\CategoryPosts;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all(); 
+        return view('posts.create',[
+            'categories' => $categories
+        ]);
     }
 
     public function store(Request $request)
@@ -24,6 +29,7 @@ class PostController extends Controller
         ]);
 
         $inputs = $request->all();       
+        // dd($inputs);
 
         unset($inputs['picture']);
         unset($inputs['_token']);
@@ -37,10 +43,23 @@ class PostController extends Controller
         }
 
         $inputs['user_id'] = Auth::id();
-        //dd($inputs);
+        
+        /////////getting the categories///////
+        // dd($inputs);
+
         $post = Post::create($inputs);
 
-        return redirect('/home');
+        $category_list = $inputs['category_list'];
+        // dd($category_list);
+        $count = count($category_list);
+        // dd($count);
+        $post_id = $post->id;
+
+        for ($i=1; $i < $count ; $i++) { 
+            $post->categories()->sync($category_list);
+        }
+
+        return redirect('/my-posts');
     }
 
     public function myPosts()
@@ -62,4 +81,108 @@ class PostController extends Controller
             'allposts' => $allposts
         ]);
     }
+
+    public function show(Post $post)
+    {
+        // dd($post);
+        $selected_categories = $post->categories;
+        // dd($selected_categories);
+        return view('posts.show',[
+            'post' => $post,
+            'selected_categories' => $selected_categories
+        ]);
+    }
+
+    public function edit(Post $post)
+    {
+        $selected_categories = $post->categories;
+
+        function extract_ids($array = array()){
+            $res = array();
+            foreach($array as $k=>$v) {
+                $res[]= $v->id;
+            }
+            return $res;
+        }
+        $selected_ids = extract_ids($selected_categories);
+        $not_selected_ids = Category::whereNotIn("id", $selected_ids)->pluck("id");
+        $not_selected_categories = Category::whereNotIn("id", $selected_ids)->get();
+
+        return view('posts.edit',[
+            'post' => $post,
+            'selected_categories' => $selected_categories,
+            'selected_ids' => $selected_ids,
+            'not_selected_ids' => $not_selected_ids,
+            'not_selected_categories' => $not_selected_categories
+        ]);
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => ['required','string', 'max:255'],
+            'description' => ['required','string', 'max:255'],
+            'content'  => ['required','string', 'max:255'],
+        ]);
+        $inputs = $request->all();
+        
+
+        // dd($post);
+        unset($inputs['_token']);
+        unset($inputs['_method']);
+        unset($inputs['category_list']);
+        $post_id = $post->id;
+        
+        // $post = Post::whereId($post->id)->update($inputs);
+
+            $post = Post::whereId($post->id)->first();
+            $post->update($inputs);
+
+
+        // dd($post);
+        // $inputproduk = product::whereId($id)->first();
+        // $inputproduk->update($input);
+        // $inputproduk->categories()->sync($request->input('kat_id'));
+        
+        // $category_list = $inputs['category_list'];
+        $category_list = $request->get('category_list');
+        // dd($category_list);
+
+        // dd($inputs);
+        // dd($category_list);        
+        // $keys = array_keys($category_list);
+        // dd($keys);
+        $count = count($category_list);
+        // dd($count);
+        // $post_id = $post->id;
+        // dd($post_id);
+
+        for ($i=1; $i < $count ; $i++) { 
+            $post->categories()->sync($category_list);
+        }
+
+        return redirect()->back();
+    }
+
+    public function destroy(Post $post)
+    {
+        // dd($post); 
+        $post = Post::findOrFail($post->id);
+        $post->delete();
+        return redirect()->back();
+    }
 }
+
+
+
+
+
+
+        // $checked = CategoryPosts::where(['post_id', $post->id]);
+        // $categories = Post::find($post->id);
+        // $selected_categories = $categories->categories();
+        // $categories = CategoryPosts::all();
+        // $categories = $model->categories();   // returns what you defined it to return
+        // $model->categories()->where(['post_id', $post->id])->get();
+
+        // $model->categories;   // loaded relationship via dynamic property

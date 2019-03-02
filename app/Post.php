@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
+use App\Category;
 
 class Post extends Model
 {
@@ -13,5 +15,10 @@ class Post extends Model
     public function user()
     {
         return $this->belogsTo(User::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Category','category_posts','post_id','category_id');
     }
 }

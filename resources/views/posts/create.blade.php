@@ -53,6 +53,19 @@
         </div>
 
         <div class="form-group row">
+            <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+
+            <div class="col-md-6">
+                  
+                  <select name="category_list[]" multiple="multiple">
+                      @foreach ($categories as $category)
+                          <option value="<?= $category->id ?>"><?= $category->title ?></option>
+                      @endforeach
+                  </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label for="picture" class="col-md-4 col-form-label text-md-right">{{ __('Post Picture') }}</label>
 
             <div class="col-md-6 picture_upload" class="form-group{{ $errors->has('picture') ? ' has-error' : '' }}">

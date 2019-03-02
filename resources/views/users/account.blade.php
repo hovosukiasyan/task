@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="wrapper">
-        <h1 class="title">Edit Project</h1>   
+        <h1 class="title">Edit Profile</h1>   
         <?php
         //    dd( $user); 
         ?>
@@ -58,7 +58,7 @@
                 <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
                 <div class="col-md-6">
-                    <select name="gender" class="col-md-4 control-label">
+                    <select name="gender" class="col-md-4 control-label small-select">
                         <option value="1">Male</option>
                         <option value="0">Female</option>
                     </select>
