@@ -65,7 +65,7 @@ class PostController extends Controller
     public function myPosts()
     {
         $user = Auth::id();
-        $myposts = DB::table('posts')->where('user_id', $user)->get();
+        $myposts = Post::where('user_id', $user)->get();
         //dd($myposts);
         return view('posts.myposts',[
             'myposts' => $myposts
@@ -75,7 +75,7 @@ class PostController extends Controller
 
     public function allPosts()
     {
-        $allposts = DB::table('posts')->get();
+        $allposts = Post::all();
         //dd($allposts);
         return view('posts.allposts',[
             'allposts' => $allposts
@@ -96,15 +96,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $selected_categories = $post->categories;
-
-        function extract_ids($array = array()){
-            $res = array();
-            foreach($array as $k=>$v) {
-                $res[]= $v->id;
-            }
-            return $res;
-        }
-        $selected_ids = extract_ids($selected_categories);
+        $selected_ids = $selected_categories->pluck("id");
         $not_selected_ids = Category::whereNotIn("id", $selected_ids)->pluck("id");
         $not_selected_categories = Category::whereNotIn("id", $selected_ids)->get();
 
@@ -132,30 +124,12 @@ class PostController extends Controller
         unset($inputs['_method']);
         unset($inputs['category_list']);
         $post_id = $post->id;
+        $post = Post::whereId($post->id)->first();
         
-        // $post = Post::whereId($post->id)->update($inputs);
+        $post->update($inputs);
 
-            $post = Post::whereId($post->id)->first();
-            $post->update($inputs);
-
-
-        // dd($post);
-        // $inputproduk = product::whereId($id)->first();
-        // $inputproduk->update($input);
-        // $inputproduk->categories()->sync($request->input('kat_id'));
-        
-        // $category_list = $inputs['category_list'];
         $category_list = $request->get('category_list');
-        // dd($category_list);
-
-        // dd($inputs);
-        // dd($category_list);        
-        // $keys = array_keys($category_list);
-        // dd($keys);
         $count = count($category_list);
-        // dd($count);
-        // $post_id = $post->id;
-        // dd($post_id);
 
         for ($i=1; $i < $count ; $i++) { 
             $post->categories()->sync($category_list);

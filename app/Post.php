@@ -8,8 +8,6 @@ use App\Category;
 
 class Post extends Model
 {
-    //protected $guarded = [];
-    
     protected $fillable = ['title', 'description', 'content','user_id', 'picture'];
 
     public function user()
