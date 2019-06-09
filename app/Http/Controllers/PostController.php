@@ -29,7 +29,6 @@ class PostController extends Controller
         ]);
 
         $inputs = $request->all();       
-        // dd($inputs);
 
         unset($inputs['picture']);
         unset($inputs['_token']);

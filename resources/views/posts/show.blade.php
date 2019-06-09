@@ -23,7 +23,7 @@
                 @endforeach
             </ul>
     </div>
-    <a href="/my-posts/edit/{{ $post->id }}" class="update-post link_push_left">Update Post</a>
+    <a href="/my-posts/edit/{{ $post->id }}" class="update-post link_push_left">Edit Task</a>
         
 </div>
 
